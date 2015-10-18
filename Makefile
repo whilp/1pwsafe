@@ -1,15 +1,16 @@
+PROGRAM := 1pwsafe
 VERSION := $(shell git describe --long --tags)
 TAG := $(shell git tag)
 INSTALL := go install -ldflags "-X main.version=$(VERSION)" ./...
-BINARY := 1pwsafe-$(shell uname -s)-$(shell uname -m)
+BINARY := $(PROGRAM)-$(shell uname -s)-$(shell uname -m)
 CHECKSUM := $(BINARY).sha256
 TARGETS := build install test
 
-1pwsafe:
+$(PROGRAM):
 	GOBIN=$(CURDIR) $(INSTALL)
 
 binary: $(BINARY)
-$(BINARY): envcrypt
+$(BINARY): $(PROGRAM)
 	mv $< $@
 
 checksum: $(CHECKSUM)
