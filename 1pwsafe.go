@@ -3,6 +3,8 @@ package main
 import (
 	"bytes"
 	"encoding/csv"
+	"flag"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -10,7 +12,18 @@ import (
 	"text/template"
 )
 
+var (
+	version  string
+	fVersion = flag.Bool("v", false, "print program version")
+)
+
 func main() {
+	flag.Parse()
+	if *fVersion {
+		fmt.Fprintf(os.Stdout, "1pwsafe %s\n", version)
+		os.Exit(0)
+	}
+
 	w := csv.NewWriter(os.Stdout)
 	r := csv.NewReader(os.Stdin)
 	r.Comma = '\t'
